@@ -19,21 +19,27 @@ def makePlot(x,y,z,name):
 #===============================================================================
 
 #===============================================================================
-def RNG():
-    return random.random()
+def RNG(i):
+    a,c,m,seed = 65, 319, 65537, 3434
+    if i == 0:
+        return seed
+    else:
+        return ((a * RNG(i - 1) + c) % m)
 #===============================================================================
 
 #===============================================================================
-def exerciseTwo():
+def exerciseThree():
     x = []
     y = []
     z = []
-    for i in range(0,1000):
-        x.append(RNG())
-        y.append(RNG())
-        z.append(RNG())
+    for i in range(1,100):
+        x.append(RNG(i))
+        y.append(RNG(i))
+        z.append(RNG(i))
+
+    print(x,y,z)
 
     makePlot(x,y,z,"RNG Plot")
     plt.show()
 #===============================================================================
-exerciseTwo()
+exerciseThree()

@@ -34,20 +34,25 @@ def decay(N0,lam,t):
 def exerciseTwo():
     N0 = int(txt1.get()) #initial number of nuclei
     lam = float(txt2.get()) #decay constant
-    tEnd = float(txt3.get()) #time to stop
-    time = np.linspace(0,tEnd,1000)
-    print(time)
-    nuke, nukeAnli = [],[]
-    N = N0
-    for t in time:
-        nuke.append(N)
-        nukeAnli.append(decay(N0,lam,t))
-        r = random.random()
-        if r < lam:
-            N -= 1
+    dt = float(txt3.get()) #time step
 
-    print(time)
-    makePlot(time,nuke,"Estimate")
+    nuke, nukeAnli, timeEx = [],[],[]
+    N = N0
+    t = 0
+    nuke.append(N)
+    timeEx.append(t)
+    while N > 1:
+        print(N)
+        N = len([i for i in range(0,N) if random.random() < lam])
+        nuke.append(N)
+        t += dt
+        timeEx.append(t)
+
+    time = np.linspace(0,timeEx[len(timeEx) - 1],1000)
+    for t in time:
+        nukeAnli.append(decay(N0,lam,t))
+        
+    makePlot(timeEx,nuke,"Estimate")
     makePlot(time,nukeAnli,"Analytical")
     plt.show()
 #===============================================================================
@@ -74,7 +79,7 @@ lbl2.grid(column = 0, row = 1)
 txt2 = Entry(window, width = 10)
 txt2.grid(column = 1, row = 1)
 
-lbl3 = Label(window, text = "Total Time")
+lbl3 = Label(window, text = "Time Step")
 lbl3.grid(column = 0, row = 2)
 
 txt3 = Entry(window, width = 10)
